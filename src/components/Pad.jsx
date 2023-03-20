@@ -1073,11 +1073,22 @@ const Pad=()=>{
         }
     }
     const insertSymbol=symbol=>{
-        let string=document.getSelection().focusNode.nodeValue;
-        let offset=document.getSelection().focusOffset;
+        let selection=window.getSelection();
+        let string=selection.focusNode.nodeValue;
+        let offset=selection.focusOffset;
+        if(!string)string="";
         console.log(string.substring(0,offset)+symbol+string.substring(offset,string.length));
-        document.getSelection().focusNode.textContent=string.substring(0,offset)+symbol+string.substring(offset,string.length);
-        //document.getSelection().anchorNode.setSelectionRange(offset,offset);
+        selection.focusNode.textContent=string.substring(0,offset)+symbol+string.substring(offset,string.length);
+        //selection.anchorNode.setSelectionRange(offset,offset);
+        console.log(string,offset, selection.focusNode);
+        document.execCommand('selectAll', false, null);
+        let range=document.createRange();
+        range.setStart(selection.focusNode,offset+1);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+// collapse selection to the end
+        selection.collapseToEnd();
     };
     return (<div className="pad">
         <div className="pad-left">

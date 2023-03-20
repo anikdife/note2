@@ -1079,7 +1079,6 @@ const Pad=()=>{
         if(!string)string="";
         console.log(string.substring(0,offset)+symbol+string.substring(offset,string.length));
         selection.focusNode.textContent=string.substring(0,offset)+symbol+string.substring(offset,string.length);
-        //selection.anchorNode.setSelectionRange(offset,offset);
         console.log(string,offset, selection.focusNode);
         document.execCommand('selectAll', false, null);
         let range=document.createRange();
@@ -1087,7 +1086,6 @@ const Pad=()=>{
         range.collapse(true);
         selection.removeAllRanges();
         selection.addRange(range);
-// collapse selection to the end
         selection.collapseToEnd();
     };
     return (<div className="pad">

@@ -1081,7 +1081,7 @@ const Pad=()=>{
     };
     return (<div className="pad">
         <div className="pad-left">
-            {showSymbol?<div className="pad-left-symbols">{symbols.slice(symbolIndex,symbolIndex+10).map((item,index)=><span key={index}>{index}&nbsp;:&nbsp;{item.symbol}</span>)}</div>:null}
+            { altPressed && showSymbol?<div className="pad-left-symbols">{symbols.slice(symbolIndex,symbolIndex+10).map((item,index)=><span key={index}>{index}&nbsp;:&nbsp;{item.symbol}</span>)}</div>:null}
         </div>
         <div className="pad-center" contentEditable="true" onKeyDown={e=>keyDownPad(e)}></div>
         <div className="pad-right"></div>

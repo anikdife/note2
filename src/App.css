@@ -1,0 +1,21 @@
+.pad{
+  width: 100vw;
+  height: 100vh;
+  background: #e2e1e0;
+  display: grid;
+  grid-template-columns: .2fr 1fr .2fr;
+}
+
+.pad-center{
+  padding: .5em 1em;
+  background: #FFF;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.pad-center:focus{
+  border: 0;
+  outline: none;
+}
+.pad-left-symbols{
+  display: grid;
+  grid-template-columns: 1fr;
+}

@@ -19,3 +19,11 @@
   display: grid;
   grid-template-columns: 1fr;
 }
+.pad-right-alt{
+  position: fixed;
+  top: 45%;
+  left: 45%;
+  font-size: 3em;
+  text-shadow: 2px 2px 0 hsl(101, 47%, 73%);
+  opacity: .4;
+}

@@ -1027,6 +1027,7 @@ const Pad=()=>{
             "code": "8959"
         }
     ];
+    const [showAlt, setShowAlt]=useState(false);
     const [altPressed,setAltPressed]=useState(false);
     const [showSymbol, setShowSymbol]=useState(false);
     const [symbolIndex, setSymbolIndex]=useState(0);
@@ -1067,6 +1068,7 @@ const Pad=()=>{
         if(e.key=="Alt"){
             e.preventDefault();
             setAltPressed(!altPressed);
+            setShowAlt(!showAlt);
             if(!altPressed){
                 setShowSymbol(false);
             }
@@ -1093,7 +1095,9 @@ const Pad=()=>{
             { altPressed && showSymbol?<div className="pad-left-symbols">{symbols.slice(symbolIndex,symbolIndex+10).map((item,index)=><span key={index}>{index}&nbsp;:&nbsp;{item.symbol}</span>)}</div>:null}
         </div>
         <div className="pad-center" contentEditable="true" onKeyDown={e=>keyDownPad(e)}></div>
-        <div className="pad-right"></div>
+        <div className="pad-right">
+            {showAlt?<div className="pad-right-alt">Alt</div>:null}
+        </div>
     </div>)
 }
 export default Pad;

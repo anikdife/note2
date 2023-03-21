@@ -7,7 +7,7 @@
 }
 
 .pad-center{
-  padding: .5em 1em;
+  padding: 1em 1em;
   background: #FFF;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
@@ -23,7 +23,9 @@
   position: fixed;
   top: 45%;
   left: 45%;
-  font-size: 3em;
-  text-shadow: 2px 2px 0 hsl(101, 47%, 73%);
+  font-size: 5em;
+  text-shadow: -15px 5px 20px #424447;
+  font-family: 'Anton', Arial, sans-serif;
+  color: white;
   opacity: .4;
 }

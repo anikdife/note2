@@ -1060,7 +1060,14 @@ const Pad=()=>{
                 case "s":
                 case "S":
                     setShowSymbol(!showSymbol);                    
-                    break;            
+                    break;
+                case "l":
+                case "L":
+                    setShowSymbol(false);
+                    insertSymbol("<li></li>");
+                    setAltPressed(false);  
+                    setShowAlt(false);
+                    break;         
                 default:
                     break;
             }
@@ -1082,7 +1089,7 @@ const Pad=()=>{
         console.log(string.substring(0,offset)+symbol+string.substring(offset,string.length));
         selection.focusNode.textContent=string.substring(0,offset)+symbol+string.substring(offset,string.length);
         console.log(string,offset, selection.focusNode);
-        document.execCommand('selectAll', false, null);
+        //document.execCommand('selectAll', false, null);
         let range=document.createRange();
         range.setStart(selection.focusNode,offset+1);
         range.collapse(true);

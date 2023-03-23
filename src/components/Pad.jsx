@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Pad=()=>{
     const symbols=[
@@ -1031,8 +1031,23 @@ const Pad=()=>{
     const [altPressed,setAltPressed]=useState(false);
     const [showSymbol, setShowSymbol]=useState(false);
     const [symbolIndex, setSymbolIndex]=useState(0);
+    const [classes,setClasses]=useState([]);
+    const [firstFocus,setFirstFocus]=useState(false);
+    const [childElementCount,setChildElementCount]=useState(1);
+    useEffect(()=>{
+        onFocusFirst();
+    },[firstFocus]);
+    useEffect(()=>{
+        let divs=document.querySelector(".pad-center").children;
+        let lastDiv=[...divs].pop();
+        let className="c"+randomString(31)
+        lastDiv.className=className;
+        setClasses([...classes,className]);
+    },[childElementCount]);
     const keyDownPad=e=>{
-        console.log(e.key,altPressed);
+        let divs=document.querySelector(".pad-center").childElementCount;
+        setChildElementCount(divs);
+        console.log(e.key,altPressed, classes);
         if(altPressed && showSymbol){
             console.log(symbolIndex);
             switch (e.key) {
@@ -1063,8 +1078,11 @@ const Pad=()=>{
                     break;
                 case "l":
                 case "L":
+                    let ul=document.createElement('ul');
+                    let li=document.createElement("li");
+                    ul.appendChild(li);
+                    document.activeElement.appendChild(ul);
                     setShowSymbol(false);
-                    insertSymbol("<li></li>");
                     setAltPressed(false);  
                     setShowAlt(false);
                     break;         
@@ -1097,13 +1115,40 @@ const Pad=()=>{
         selection.addRange(range);
         selection.collapseToEnd();
     };
+    const randomString=(length) => {
+        const chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
+    const removeStartingText=event=>{
+        console.log(event);
+        event.target.innerText="";
+        event.target.removeEventListener("focus",removeStartingText,true);
+    }
+    const onFocusFirst=()=>{
+        let elem=document.querySelector(".pad-center");
+        if(elem.innerHTML===""){
+            let div=document.createElement("div");
+            div.contentEditable=true;
+            let className="c"+randomString(31);
+            setClasses([...classes,className]);
+            div.className=className;
+            div.innerText="type...";
+            elem.appendChild(div);
+            console.log(document.activeElement);
+        }
+    };
     return (<div className="pad">
         <div className="pad-left">
             { altPressed && showSymbol?<div className="pad-left-symbols">{symbols.slice(symbolIndex,symbolIndex+10).map((item,index)=><span key={index}>{index}&nbsp;:&nbsp;{item.symbol}</span>)}</div>:null}
         </div>
-        <div className="pad-center" contentEditable="true" onKeyDown={e=>keyDownPad(e)}></div>
+        <div className="pad-center" contentEditable="true" onFocus={e=>setFirstFocus(true)} onKeyDown={e=>keyDownPad(e)}></div>
         <div className="pad-right">
             {showAlt?<div className="pad-right-alt">Alt</div>:null}
+            <div className="pad-right-sections">Sections:
+                {classes.map(div=>document.querySelector("."+div)).slice(1).map(div=><span className="pad-right-section">{div.innerText}</span>)}
+            </div>
         </div>
     </div>)
 }

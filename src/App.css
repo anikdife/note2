@@ -1,31 +1,50 @@
-.pad{
+.pad {
   width: 100vw;
   height: 100vh;
   background: #e2e1e0;
   display: grid;
-  grid-template-columns: .2fr 1fr .2fr;
+  grid-template-columns: 0.2fr 1fr 0.2fr;
 }
 
-.pad-center{
+.pad-center {
   padding: 1em 1em;
-  background: #FFF;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-.pad-center:focus{
+.pad-center:focus {
   border: 0;
   outline: none;
 }
-.pad-left-symbols{
+.pad-left-symbols {
   display: grid;
   grid-template-columns: 1fr;
 }
-.pad-right-alt{
+.pad-right-alt {
   position: fixed;
   top: 45%;
   left: 45%;
   font-size: 5em;
   text-shadow: -15px 5px 20px #424447;
-  font-family: 'Anton', Arial, sans-serif;
+  font-family: "Anton", Arial, sans-serif;
   color: white;
-  opacity: .4;
+  opacity: 0.4;
+}
+.pad-center > div:focus {
+  border: 0;
+  outline: 0;
+}
+.pad-center ul {
+  margin-left: 2em;
+}
+.pad-right-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
+.pad-right-section {
+  white-space: nowrap;
+  overflow: hidden;
+  color: rgb(75, 75, 39);
+  text-overflow: ellipsis;
+  max-width: 100px;
 }

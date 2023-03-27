@@ -1078,12 +1078,27 @@ const Pad=()=>{
                     break;
                 case "h":
                 case "H":
-                    let div=document.createElement("div");
-                    div.innerHTML="<br/>";
+                    let div1=document.createElement("div");
+                    div1.innerHTML="<br/>";
                     let className="c"+randomString(31);
-                    div.className=className;
+                    div1.className=className;
+                    div1.style="height:1px;border-top:1px solid black;"
                     setClasses([...classes,className]);
-                    div.style="height:1px;background:black";
+                    document.activeElement.appendChild(div1);
+                    let div2=document.createElement("div");
+                    div2.innerHTML="type...";
+                    className="c"+randomString(31);
+                    div2.className=className;
+                    setClasses([...classes,className]);
+                    document.activeElement.appendChild(div2);
+                    //div2.focus();
+                    console.log(document.getSelection().focusNode.parentElement);
+                    let selection = window.getSelection();        
+                    let range = document.createRange();
+                    range.selectNodeContents(div2);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    /* div.style="height:1px;background:black";
                     let referenceNode=document.getSelection().focusNode;
                     console.log(referenceNode.parentNode);
                     if(referenceNode.parentElement.className=="pad-center")
@@ -1100,7 +1115,9 @@ const Pad=()=>{
                     console.log(document.getSelection().focusNode.parentElement.nextElementSibling.nextElementSibling);
                     document.getSelection().focusNode.parentElement.nextElementSibling.nextElementSibling.focus();
                     //if(!altPressed)
-                    //document.querySelector(classes.at(-1)).focus();
+                    //document.querySelector(classes.at(-1)).focus(); */
+                    setAltPressed(false);
+                    setShowAlt(false);
                     break;
                 case "l":
                 case "L":

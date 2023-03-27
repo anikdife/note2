@@ -1655,6 +1655,9 @@ const Pad=()=>{
         sel.removeAllRanges();
         sel.addRange(range);
     };
+    const filterWord=(word,list)=>{
+        return list.filter(item=>item.match(new RegExp("^"+word.split("").join("\\w*"),"i")));
+    }
     const keyDownPad=e=>{
         let divs=document.querySelector(".pad-center").childElementCount;
         setChildElementCount(divs);
@@ -1664,13 +1667,22 @@ const Pad=()=>{
             //console.log(e.target, document.getSelection().focusNode);
             setLastCharacterParagraphStyle(e.key);
             setParagraphStyleProperty(paragraphStyleProperty+""+e.key);
-            if(paragraphStyleProperty!=""){
-                let filter=styleProperties.filter(item=>item.toLowerCase().indexOf(paragraphStyleProperty.toLowerCase())==0)[0];
-                let styleSpan=document.querySelector("."+currentParagraphStyle);
-                console.log(paragraphStyleProperty,filter);
-                styleSpan.innerText=filter;
-                selectTextRange(styleSpan,paragraphStyle.length,filter.length-1);
+            let styleSpan=document.querySelector("."+currentParagraphStyle);
+            if(styleSpan.innerText!=""){
+                let filter=filterWord(styleSpan.innerText+e.key,styleProperties);
+                console.log(styleSpan,styleSpan.innerText+e.key,filter);
+                if(filter.length==1){
+                    e.preventDefault();
+                    styleSpan.innerText=filter;
+                    let selection = window.getSelection();        
+                    let range = document.createRange();
+                    range.selectNodeContents(styleSpan);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    //setParagraphStyleProperty("");
+                }
             }
+            return;
         }
         if(altPressed && showSymbol){
             console.log(symbolIndex);

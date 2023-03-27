@@ -1668,6 +1668,16 @@ const Pad=()=>{
             setLastCharacterParagraphStyle(e.key);
             setParagraphStyleProperty(paragraphStyleProperty+""+e.key);
             let styleSpan=document.querySelector("."+currentParagraphStyle);
+            if(e.key=="="){
+                e.preventDefault();
+                styleSpan.innerText+="=";
+                let selection = window.getSelection();        
+                let range = document.createRange();
+                range.selectNodeContents(styleSpan);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                return;
+            }
             if(styleSpan.innerText!=""){
                 let filter=filterWord(styleSpan.innerText+e.key,styleProperties);
                 console.log(styleSpan,styleSpan.innerText+e.key,filter);

@@ -51,3 +51,9 @@
   max-width: 100px;
   margin: auto;
 }
+.pad-right-section-focused {
+  border: 1px dotted rgb(88, 38, 38);
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+}

@@ -1040,14 +1040,14 @@ const Pad=()=>{
     useEffect(()=>{
         let divs=document.querySelector(".pad-center").children;
         let lastDiv=[...divs].pop();
-        let className="c"+randomString(31)
+        let className="c"+randomString(31);
         lastDiv.className=className;
         setClasses([...classes,className]);
     },[childElementCount]);
     const keyDownPad=e=>{
         let divs=document.querySelector(".pad-center").childElementCount;
         setChildElementCount(divs);
-        console.log(e.key,altPressed, classes);
+        //console.log(e.key,altPressed, classes);
         if(altPressed && showSymbol){
             console.log(symbolIndex);
             switch (e.key) {
@@ -1075,6 +1075,32 @@ const Pad=()=>{
                 case "s":
                 case "S":
                     setShowSymbol(!showSymbol);                    
+                    break;
+                case "h":
+                case "H":
+                    let div=document.createElement("div");
+                    div.innerHTML="<br/>";
+                    let className="c"+randomString(31);
+                    div.className=className;
+                    setClasses([...classes,className]);
+                    div.style="height:1px;background:black";
+                    let referenceNode=document.getSelection().focusNode;
+                    console.log(referenceNode.parentNode);
+                    if(referenceNode.parentElement.className=="pad-center")
+                    referenceNode.parentElement.insertBefore(div, referenceNode.nextSibling);
+                    else referenceNode.parentNode.parentElement.insertBefore(div, referenceNode.nextSibling);
+                    div=document.createElement("div");
+                    div.innerHTML="<br/>";
+                    className="c"+randomString(31);
+                    div.className=className;
+                    setClasses([...classes,className]);
+                    //let referenceNode=document.getSelection().focusNode;
+                    referenceNode.parentNode.parentElement.insertBefore(div, referenceNode.nextSibling);
+                    //setAltPressed(!altPressed);
+                    console.log(document.getSelection().focusNode.parentElement.nextElementSibling.nextElementSibling);
+                    document.getSelection().focusNode.parentElement.nextElementSibling.nextElementSibling.focus();
+                    //if(!altPressed)
+                    //document.querySelector(classes.at(-1)).focus();
                     break;
                 case "l":
                 case "L":
@@ -1147,7 +1173,7 @@ const Pad=()=>{
         <div className="pad-right">
             {showAlt?<div className="pad-right-alt">Alt</div>:null}
             <div className="pad-right-sections">Sections:
-                {classes.map(div=>document.querySelector("."+div)).slice(1).map(div=><span className="pad-right-section">{div.innerText}</span>)}
+                {classes.map(div=>document.querySelector("."+div)).map((div,index)=><span className="pad-right-section" key={index}>{div?div.innerText:""}</span>)}
             </div>
         </div>
     </div>)

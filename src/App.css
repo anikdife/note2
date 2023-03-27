@@ -40,6 +40,8 @@
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 .pad-right-section {
   white-space: nowrap;
@@ -47,4 +49,5 @@
   color: rgb(75, 75, 39);
   text-overflow: ellipsis;
   max-width: 100px;
+  margin: auto;
 }

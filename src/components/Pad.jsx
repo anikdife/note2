@@ -1631,7 +1631,10 @@ const Pad=()=>{
     const [paragraphStyle, setParagraphStyle]=useState(false);
     const [lastCharacterParagraphStyle, setLastCharacterParagraphStyle]=useState("");
     const [paragraphStyleProperty,setParagraphStyleProperty]=useState("");
-    const [currentParagraphStyle, setCurrentParagraphStyle]=useState("")
+    const [currentParagraphStyle, setCurrentParagraphStyle]=useState("");
+    const [styleValue, setStyleValue]=useState(false);
+    const [styleFilter, setStyleFilter]=useState([]);
+    const [stylePosition,setStylePosition]=useState({too:0,left:0});
     useEffect(()=>{
         onFocusFirst();
     },[firstFocus]);
@@ -1658,20 +1661,36 @@ const Pad=()=>{
     const filterWord=(word,list)=>{
         return list.filter(item=>item.match(new RegExp("^"+word.split("").join("\\w*"),"i")));
     }
+    function getCaretPos() {
+        // Internet Explorer Caret Position (TextArea)
+        let node = document.getSelection().anchorNode;
+        let selection= (node.nodeType == 3 ? node.parentNode : node);
+        let position=selection.getBoundingClientRect();
+        setStylePosition({top:position.bottom,left:position.left});
+    }
+    const getWord=()=>{
+        let word="",len=0;
+        let selection=window.getSelection().focusOffset;
+        let data=window.getSelection().focusNode.data.split(/[^a-z]/i);//window.getSelection().focusNode.data.split(/\s|\:|\,/)
+        for (let index = 0; index < data.length; index++) {
+            len+=data[index].length+1;word=data[index];
+            if(len>=selection)break;
+        }
+        return word;
+    }
     const keyDownPad=e=>{
         let divs=document.querySelector(".pad-center").childElementCount;
         setChildElementCount(divs);
         setFocus(document.getSelection().focusNode.parentElement.className);
         //console.log(e.key,altPressed, focus);
         if(altPressed && paragraphStyle && e.key && e.key.length==1){
-            //console.log(e.target, document.getSelection().focusNode);
             setLastCharacterParagraphStyle(e.key);
             setParagraphStyleProperty(paragraphStyleProperty+""+e.key);
             let styleSpan=document.querySelector("."+currentParagraphStyle);
             if(e.key=="="){
                 e.preventDefault();
                 styleSpan.innerText+="=";
-                let selection = window.getSelection();        
+                let selection = window.getSelection(); 
                 let range = document.createRange();
                 range.selectNodeContents(styleSpan);
                 selection.removeAllRanges();
@@ -1679,20 +1698,28 @@ const Pad=()=>{
                 return;
             }
             if(styleSpan.innerText!=""){
-                let filter=filterWord(styleSpan.innerText+e.key,styleProperties);
+                console.log(getWord());
+                let filter=filterWord(getWord()+e.key,styleProperties);
+                //let filter=filterWord(styleSpan.innerText+e.key,styleProperties);
+                setStyleFilter(filter);
+                getCaretPos();
                 console.log(styleSpan,styleSpan.innerText+e.key,filter);
-                if(filter.length==1){
+                /* if(filter.length==1){
                     e.preventDefault();
-                    styleSpan.innerText=filter;
+                    styleSpan.innerText=filter[0]+':value';
+                    let range=document.createRange();
+                    range.setStart(styleSpan.firstChild,filter[0].length+1);
+                    range.setEnd(styleSpan.firstChild,filter[0].length+6);
                     let selection = window.getSelection();        
-                    let range = document.createRange();
-                    range.selectNodeContents(styleSpan);
                     selection.removeAllRanges();
                     selection.addRange(range);
-                    //setParagraphStyleProperty("");
-                }
+                } */
             }
             return;
+        }
+        if(altPressed && paragraphStyle && e.key==("ArrowDown" || e.key=="ArrowUp")){
+            e.preventDefault();
+            console.log(e.key);
         }
         if(altPressed && showSymbol){
             console.log(symbolIndex);
@@ -1839,6 +1866,9 @@ const Pad=()=>{
             <div className="pad-right-sections">Sections:
                 {classes.map(div=>document.querySelector("."+div)).map((div,index)=><span className={"pad-right-section"+" "+(div && (div.className==focus?"pad-right-section-focused":""))} key={index}>{div?div.innerText:""}</span>)}
             </div>
+            {(altPressed && paragraphStyle)?<div className="pad-right-filter-lists" style={{top:stylePosition.top,left:stylePosition.left}}>
+                {styleFilter.slice(0,10).map(item=><div className="pad-right-filter-list" key={item}>{item}</div>)}
+            </div>:null}
         </div>
     </div>)
 }

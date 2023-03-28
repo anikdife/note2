@@ -57,3 +57,20 @@
   color: white;
   border-radius: 4px;
 }
+.pad-right-filter-lists {
+  cursor: pointer;
+  display: block;
+  min-height: 1.5em;
+  margin: 6px 0 0 0;
+  padding: 0;
+  white-space: nowrap;
+  position: fixed;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+.pad-right-filter-list {
+  margin: 2px;
+  padding: 4px;
+  line-height: 16px;
+  height: 18px;
+}
